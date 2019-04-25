@@ -1,0 +1,66 @@
+Exercises
+
+1. - String
+   - Integer
+   - Date
+   - Float
+   - Monetary data type/Numeric
+
+2. A database would be used when we would have multiple programs or instances
+of a program trying to access or modify data. If only one instance of the program
+is going to need the data, then we can just use a text file.
+
+3. SQL is a declarative language and not a procedural language, which means that
+we don't necessarily have to worry about how to access or modify data, we simply
+use the commands in SQL and the SQL engine finds the most efficient way to
+process the commands.
+
+4. A database is essentially the information that is going to be used to make
+our programs run. The programming that is done with high level languages tells
+the program how to interact with the databases and when they come together, we
+have functioning program.
+
+5. Tables are the foundation of SQL databases and it is used to store groups
+of information so that we can access it later on. Rows will store different
+data types in the table and they are usually organized by an identifier.
+Columns help organize the data types by their meaning, so you could have a column
+of email addresses or a column of usernames. The values are the physical data
+that gets stores in these rows and columns.
+
+6. In a table there can de date data types, numerical data types, and strings.
+
+7. The first query is selecting the date and amount values from the payments
+table.
+- 2016-05-01, 1500.00
+- 2016-05-10, 37.00
+- 2016-05-15, 124.93
+- 2016-05-23, 54.72
+
+The next query is selecting the amount values that are greater than 500 from
+the payments table.
+
+- 1500.00
+
+The last query is selecting all values from the payee "Mega Foods" from the
+payments table.
+
+- 2016-05-15, Mega Foods, 124.93, Groceries
+
+8.
+SELECT email, signup
+FROM users
+WHERE name = 'DeAndre Data';
+
+- datad@comcast.net, 2008-01-20
+
+SELECT userid
+FROM users
+WHERE email = 'aleesia.algorithm@uw.edu';
+
+- 1
+
+SELECT *
+FROM users
+where userid = '4';
+
+- 4, Brandy Boolean, bboolean@nasa.gov, 1999-10-15
