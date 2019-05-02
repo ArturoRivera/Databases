@@ -1,0 +1,68 @@
+1. SELECT name
+   FROM products
+   WHERE name LIKE 'S%';
+
+2. SELECT, FROM, WHERE , LIKE/NOT LIKE, AND/OR
+      S     F     W         L             A
+   San Francisco whipped Los Angeles.
+    (Giants beat the Dodgers yesterday lol)
+
+3. SELECT name, gender, age
+   FROM dogs
+   WHERE breed LIKE '%Labrador%';
+
+   SELECT id
+   FROM dogs
+   WHERE age < 1;
+
+   SELECT name, age
+   FROM dogs
+   WHERE gender='F' AND weight > 35;
+
+   SELECT *
+   FROM dogs
+   WHERE breed NOT LIKE '%Shepherd%';
+
+   SELECT id, age, weight, breed
+   FROM dogs
+   WHERE weight > 60 OR breed LIKE '%Great Dane%';
+
+4. Mushi, 2016-03-22
+   Seashell, NULL
+   Azul, 2016-04-17
+   Victoire, 2016-09-01
+   Nala, NULL
+
+   Mushi, 1
+   Seashell, 7
+   Azul, 3
+   Victoire, 7
+   Nala, 1
+
+5. SELECT *
+   FROM cats;
+
+   SELECT name, gender
+   FROM cats
+   WHERE age = 7;
+
+   SELECT name
+   FROM cats;
+
+6. <,>,<=,>=,!=,=, LIKE.
+   We can use the greater than or less than comparisons if we are searching
+   for a certain age group that is less or greater than an age. Similarly, the
+   greater than or equal to and less than or equal to comparison operators can be
+   used when we are searching for a specific weight that can include the weight
+   and anything above or below it. For not equal to, we can use it to search for
+   anything in the table that isn't equal to that value such as searching through
+   a database of babies and only looking for the girl babies. Equal would be used
+   if we are looking for an exact value, such as searching for a specific ID of
+   a product. The LIKE and NOT LIKE comparison is used on strings if we are
+   searching for a certain word or phrase, such as searching for a clothing brand.
+
+7. Seashell, Nala
+
+   Mushi, Seashell, Victoire, Nala
+
+   3, 4
