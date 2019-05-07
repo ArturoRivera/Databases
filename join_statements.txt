@@ -1,0 +1,173 @@
+1. How do you find related data held in two separate data tables?
+A: In SQL, you use a JOIN clause which combines related data from separate
+tables. It outputs a results table with some information from each table.
+
+2. Explain, in your own words, the difference between an INNER JOIN, LEFT OUTER
+JOIN, and RIGHT OUTER JOIN. Give a real-world example for each.
+A: The results from the inner join will produce a table with a row from the tables
+that matches the other. An example of this could be the the transaction amount from
+a purchase that came from one table and the customer's full name that came from
+another table. They would be matched by the transaction id. Left outer join
+will grab all of the data from the first table and only the matching rows from
+the second table. Alternatively, right outer join will output only the matching
+rows from the first table and all of the data from the second table. An example
+of this could be the compensation information for employees on one table and the
+personal information for them on another table. Left outer join will output
+all of the info from the compensation table and we could join it with only the
+employees that make over 80k a year. Right outer join would output all the
+personal data from the employees and only the compensation where the yearly
+bonus is over 10k would be joined from the compensation table.
+
+3. Define primary key and foreign key. Give a real-world example for each.
+A: A primary key is a unique identifier for each row in the database table. A
+foreign key is the primary key of one table that is a non-unique attribute
+in another table. In a real world application, the primary key for one table
+could be the user ID number, and this user ID number could be the foreign key
+in a table where we keep records of transaction by user ID numbers.
+
+4. Define aliasing.
+A: Aliasing is the technique in which we create shorter variable names to replace
+the table names in a query.
+
+5. Change this query so that you are using aliasing:
+
+SELECT professor.name, compensation.salary, compensation.vacation_days
+FROM professor
+JOIN compensation
+ON professor.id = compensation.professor_id;
+
+A:  SELECT p.name, c.salary, c.vacation_days
+    FROM professor AS p
+    JOIN compensation AS c
+    ON p.id = c.professor_id;
+
+6. Why would you use a NATURAL JOIN? Give a real-world example.
+A: A natural join is a shorthand of USING. This creates an implicit results table
+with the common columns from the two tables being joined. If the tables COUNTRIES
+and CITIES have two common columns named COUNTRY and COUNTRY_ISO_CODE, you could
+use natural join to output those results.
+
+7. Using this Employee schema and data, write queries to find the following
+information:
+* List all employees and all shifts.
+A: SELECT *
+   FROM employees, shifts
+
+8. Using this Adoption schema and data, please write queries to retrieve the
+following information and include the results:
+* Create a list of all volunteers. If the volunteer is fostering a dog,
+include each dog as well.
+A: SELECT v.id, v.first_name, v.last_name, d.name
+   FROM volunteers AS v
+   LEFT OUTER JOIN dogs AS d
+   ON v.foster_dog_id = d.id;
+
+   Returns
+   id	first_name	last_name	name
+    2	Rubeus	Hagrid	Munchkin
+    5	Marjorie	Dursley	Marmaduke
+    4	Sirius	Black
+    3	Remus	Lupin
+    1	Albus	Dumbledore
+
+* The cat's name, adopter's name, and adopted date for each cat adopted within
+the past month to be displayed as part of the "Happy Tail" social media
+promotion which posts recent successful adoptions.
+A: SELECT cats.name, adopters.first_name, adopters.last_name, cat_adoptions.date
+   FROM cat_adoptions
+   JOIN cats
+   ON cats.id = cat_adoptions.cat_id
+   JOIN adopters
+   ON adopters.id = cat_adoptions.adopter_id
+   WHERE CURRENT_DATE - INTERVAL '30 DAYS' < cat_adoptions.date;
+
+   Returns
+    name	first_name	last_name	date
+    Mushi	Arabella	   Figg    2018-09-28T00:00:00.000Z
+    Victoire	Argus	Filch	      2018-10-03T00:00:00.000Z
+
+* Create a list of adopters who have not yet chosen a dog to adopt.
+A: SELECT a.first_name, a.last_name
+   FROM adopters AS a
+   LEFT OUTER JOIN dog_adoptions AS d
+   ON a.id = d.adopter_id
+   WHERE d.adopter_id IS NULL;
+
+   Returns
+   first_name	last_name
+  Hermione	Granger
+  Arabella	Figg
+
+* Lists of all cats and all dogs who have not been adopted.
+A:  SELECT c.name
+    FROM cats AS c
+    LEFT OUTER JOIN cat_adoptions AS a
+    ON c.id = a.cat_id
+    WHERE a.date IS NULL;
+
+    SELECT d.name
+    FROM dogs AS d
+    LEFT OUTER JOIN dog_adoptions AS a
+    ON d.id = a.dog_id
+    WHERE a.date IS NULL;
+
+    Returns
+    name
+    Seashell
+    Nala
+
+    And
+
+    name
+    Munchkin
+    Boujee
+    Lassie
+    Marley
+    Marmaduke
+
+* The name of the person who adopted Rosco.
+A:  SELECT a.first_name, a.last_name, d.name
+    FROM dogs AS d
+    JOIN dog_adoptions
+    ON d.id = dog_adoptions.dog_id
+    JOIN adopters AS a
+    ON a.id = dog_adoptions.adopter_id;
+
+    Returns
+    first_name	last_name	name
+    Argus	Filch	Rosco
+
+9. Using this Library schema and data, write queries applying the following
+scenarios and include the results:
+* To determine if the library should buy more copies of a given book, please
+provide the names and position, in order, of all of the patrons with a hold
+(request for a book with all copies checked out) on "Advanced Potion-Making".
+A:  SELECT p.name, h.rank
+    FROM patrons AS p
+    JOIN holds AS h
+    ON p.id = h.patron_id AND h.isbn = '9136884926'
+    ORDER BY h.rank ASC;
+
+    Returns
+    name	rank
+    Terry Boot	1
+    Cedric Diggory	2
+
+List all of the library patrons. If they have one or more books checked out,
+list the books with the patrons.
+A:  SELECT p.name, b.title
+    FROM patrons AS p
+    LEFT OUTER JOIN transactions AS t
+    ON p.id = t.patron_id
+      AND (t.checked_out_date IS NOT NULL AND t.checked_in_date IS NULL)
+    LEFT OUTER JOIN books AS b
+    ON t.isbn = b.isbn
+    ORDER BY p.name ASC;
+
+    Returns
+    name	title
+    Cedric Diggory	Fantastic Beasts and Where to Find Them
+    Cho Chang
+    Hermione Granger
+    Padma Patil
+    Terry Boot	Advanced Potion-Making
